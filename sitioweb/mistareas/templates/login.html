@@ -1,0 +1,45 @@
+{% extends 'base_part.html' %}
+{% load static %}
+
+{% block contenido %}
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6 index-lateral-izquierdo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo de MisTareas" class="img-fluid logo-lateral-izquierdo">
+            <h1>Mis Tareas</h1>
+            <h5>Inicio de sesión</h5>
+            <div class="p-5">
+                <a href="{% url 'index' %}" class="btn btn-info btn-lg" role="button" ><i class="fa-solid fa-house"></i> Volver al home</a>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 index-lateral-derecho">
+            <form method="post" class="m-5">
+                {% if form.errors %}
+                <div class="alert alert-warning m-5" role="alert">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Error</h4>
+                    {{ form.errors.username }}
+                </div>
+                {% endif %}
+                {% csrf_token %}
+                    <div class="card m-5">
+                        <div class="card-body">
+                            <h5 class="card-title">Acceso a MisTareas</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">Ingresa tus datos de identificación</h6>
+                            <div class="form-group">
+                                <label for="id_username">Usuario</label>
+                                <input type="text" class="form-control" id="id_username" name="username" placeholder="Ingrese su nombre de usuario" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_password">Contraseña</label>
+                                <input type="password" class="form-control" id="id_password" name="password" placeholder="Ingrese su contraseña" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión</button>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

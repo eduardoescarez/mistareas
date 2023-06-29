@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+.contenido{
+    font-family: 'Roboto', sans-serif;
+}
+
+.index-lateral-izquierdo{
+    background-color: #0f64f0;
+    color: white;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    padding: 5rem;
+}
+
+.index-lateral-derecho{
+    background-color: #e337b6;
+    color: white;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    padding: 5rem;
+}
+
+.logo-lateral-izquierdo{
+    padding: 2rem;
+}
+
+.login-form{
+    background-color: #0f64f0;
+    color: white;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
