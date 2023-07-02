@@ -1,0 +1,21 @@
+{% load static %}
+<div class="content-fluid">
+
+    
+    <a class="navbar-brand" href="#">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" height="40"><h2 class="sidebar-internal-maintitle">MisTareas</h2>
+    </a>
+
+    <h4 class="sidebar-internal-subtitle mt-3 mb-3">👋 Hola usuario</h4>
+
+    <div class="list-group mt-5 mb-5">
+        <a href="#" class="list-group-item list-group-item-action"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a href="#" class="list-group-item list-group-item-action"><i class="fa-solid fa-circle-plus"></i> Crear tarea</a>
+        <a href="#" class="list-group-item list-group-item-action"><i class="fa-solid fa-hourglass-start"></i> Tareas pendientes <!--<span class="badge bg-primary rounded-pill">14</span>--></a>
+        <a href="#" class="list-group-item list-group-item-action"><i class="fa-solid fa-user"></i> Mis datos</a>
+        </ul>
+    </div>
+
+    <div class="m-2 mt-3 text-center"><a href="{% url 'logout' %}" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a></div>
+    
+</div>

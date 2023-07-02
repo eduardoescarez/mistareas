@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-
 .contenido{
     font-family: 'Roboto', sans-serif;
 }
@@ -21,6 +20,14 @@
     padding: 5rem;
 }
 
+.footer {
+    background-color: rgb(245, 180, 15);
+    font-size: larger;
+    padding: 1rem;
+    height: 5rem;
+    text-align: center;
+}
+
 .logo-lateral-izquierdo{
     padding: 2rem;
 }
@@ -30,4 +37,30 @@
     color: white;
     text-align: center;
     font-family: 'Roboto', sans-serif;
+}
+
+.sidebar-internal{
+    background-color: #0f64f0;
+}
+
+.sidebar-internal-maintitle{
+    color: white;
+    display: inline;
+}
+
+.sidebar-internal-subtitle{
+    color: white;
+}
+
+.main-bg-color{
+    background-color: rgb(245, 180, 15);
+}
+
+@media only screen and (min-width: 768px) {
+
+    .sidebar-internal{
+        height: 100vh;
+    }
+
+
 }

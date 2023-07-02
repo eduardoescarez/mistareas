@@ -10,7 +10,7 @@ class LoginView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         formulario = FormularioLogin()
-        return render(request, self.template_name, {'formulario': formulario, 'titulo': 'Acceso al sitio Interno',})
+        return render(request, self.template_name, {'formulario': formulario, 'title': ' Inicio de sesión',})
     
     def post(self, request, *args, **kwargs):
         form = FormularioLogin(request.POST)
@@ -21,14 +21,18 @@ class LoginView(TemplateView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    if request.user.groups.filter(name='trabajadores').exists():
-                        return redirect('hometrabajadores')
-                    elif request.user.groups.filter(name='clientes').exists():
-                        return redirect('homeclientes')
-                    else:
-                        return redirect('index')
+                    return redirect('home_internal')
             form.add_error('username', 'Se han ingresado las credenciales equivocadas, verifique sus datos de identificación')
             return render(request, self.template_name, { 'form': form,})
         else:
             return render(request, self.template_name, { 'form': form,})
         
+class HomeInternal(TemplateView):
+    template_name = 'home_internal.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        context = {
+            'title':'- Inicio'
+        }
+        return render(request, self.template_name, context)

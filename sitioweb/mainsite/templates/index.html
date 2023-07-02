@@ -1,8 +1,6 @@
-{% extends 'base_part.html' %}
+{% extends 'components/base_mainsite_part.html' %}
 {% load static %}
-
 {% block contenido %}
-
     <div class="row">
         <div class="col-sm-12 col-md-6 index-lateral-izquierdo">
             <img src="{% static 'images/logo.png' %}" alt="Logo de MisTareas" class="img-fluid logo-lateral-izquierdo">
@@ -17,5 +15,5 @@
             <a href="{% url 'login' %}" class="btn btn-warning btn-lg mt-5" role="button" ><i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión</a>
         </div>
     </div>
-
-{% endblock%}
+    
+{% endblock %}
