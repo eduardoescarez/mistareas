@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 # Modelo de los estados de las tareas
 class Estados(models.Model):
-    estado            = models.CharField(max_length=20, null=False, blank=False)
+    estado            = models.CharField(max_length=20, null=False, blank=False, verbose_name='Estado')
 
     class Meta:
         verbose_name = 'Estado'
@@ -18,7 +18,7 @@ class Estados(models.Model):
 
 # Modelos de las etiquetas de las tareas
 class Etiquetas(models.Model):
-    etiqueta          = models.CharField(max_length=20, null=False, blank=False)
+    etiqueta          = models.CharField(max_length=20, null=False, blank=False, verbose_name='Etiqueta')
 
     class Meta:
         verbose_name = 'Etiqueta'
@@ -31,14 +31,14 @@ class Etiquetas(models.Model):
 # Modelo de las tareas
 # Advertencia: Si se eliminan un usuario, todas sus tareas son eliminadas inmediatamente
 class Tareas(models.Model):
-    titulo            = models.CharField(max_length=45, null=False, blank=False)
-    descripcion       = models.CharField(max_length=100, null=True, blank=True)
-    fecha_creacion    = models.DateTimeField(default=timezone.now)
-    fecha_modifica    = models.DateTimeField(auto_now=True)
-    fecha_vencimiento = models.DateTimeField(default=timezone.now)
-    id_estado         = models.ForeignKey(Estados, on_delete=models.DO_NOTHING, null=False, blank=False)
-    id_etiqueta       = models.ForeignKey(Etiquetas, on_delete=models.DO_NOTHING, null=False, blank=False)
-    id_User           = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    titulo            = models.CharField(max_length=45, null=False, blank=False, verbose_name='Titulo')
+    descripcion       = models.CharField(max_length=100, null=True, blank=True, verbose_name='Descripción')
+    fecha_creacion    = models.DateTimeField(default=timezone.now, verbose_name='Fecha de creación')
+    fecha_modifica    = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
+    fecha_vencimiento = models.DateTimeField(default=timezone.now, verbose_name='Fecha de vencimiento')
+    id_estado         = models.ForeignKey(Estados, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Estado')
+    id_etiqueta       = models.ForeignKey(Etiquetas, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Etiqueta')
+    id_User           = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Usuario')
 
     class Meta:
         verbose_name = 'Tarea'
