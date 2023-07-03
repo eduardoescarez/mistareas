@@ -25,6 +25,7 @@ class TareasAdmin(admin.ModelAdmin):
     fields          = ['id', 'titulo', 'descripcion', 'id_estado', 'id_etiqueta', 'id_User', 'fecha_creacion', 'fecha_vencimiento']
     readonly_fields = ['id']
 
+# Registro de modelos para usarse en el panel de administración
 admin.site.register(Estados, EstadosAdmin)
 admin.site.register(Etiquetas, EtiquetasAdmin)
 admin.site.register(Tareas, TareasAdmin)
