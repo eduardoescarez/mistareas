@@ -33,6 +33,7 @@ class HomeInternal(TemplateView):
     def get(self, request, *args, **kwargs):
         
         context = {
-            'title':'- Inicio'
+            'title':'- Inicio',
+            'id': request.user.id
         }
         return render(request, self.template_name, context)

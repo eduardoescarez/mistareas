@@ -7,4 +7,4 @@ La ubicación del repositorio principal es:
 La ubicación del repositorio de las actividades son:
 
     Actividad Individual 1: https://github.com/eduardoescarez/mistareas/tree/0.1-ai01
-    
+    Actividad Individual 2: https://github.com/eduardoescarez/mistareas/tree/0.1-ai02    
