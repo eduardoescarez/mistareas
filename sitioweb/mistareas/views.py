@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from mistareas.forms import FormularioLogin
+from mistareas.models import Tareas
 
 # Create your views here.
 
@@ -27,13 +28,25 @@ class LoginView(TemplateView):
         else:
             return render(request, self.template_name, { 'form': form,})
         
-class HomeInternal(TemplateView):
+class HomeInternalView(TemplateView):
     template_name = 'home_internal.html'
 
     def get(self, request, *args, **kwargs):
-        
         context = {
-            'title':'- Inicio',
-            'id': request.user.id
+            'title': '- Inicio',
+            'nombre': request.user.first_name,
+            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento')
         }
+        return render(request, self.template_name, context)
+    
+class ReadTaskView(TemplateView):
+
+    template_name= 'read_task.html'
+    def get(self, request, *args, **kwargs):
+        context = {
+            'title': '- Ver tarea',
+            'nombre': request.user.first_name,
+            'tarea' : Tareas.objects.get(id=kwargs['id_tarea']),
+        }
+        
         return render(request, self.template_name, context)
