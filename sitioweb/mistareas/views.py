@@ -34,11 +34,14 @@ class HomeInternalView(TemplateView):
     template_name = 'home_internal.html'
 
     def get(self, request, *args, **kwargs):
+    
         context = {
             'title': '- Inicio',
             'nombre': request.user.first_name,
-            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento')
+            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento'),
+            'mensajes':  request.session.get('mensajes', None),
         }
+        request.session.pop('mensajes', None)
         return render(request, self.template_name, context)
     
 ## Ver una tarea
@@ -63,8 +66,8 @@ class CreateTaskView(TemplateView):
             'id': request.user.id,
             'etiquetas' : Etiquetas.objects.all().order_by('id'),
             'estados' : Estados.objects.all().order_by('id'),
+            'form': FormularioNuevaTarea(),
         }
-        
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
@@ -80,9 +83,11 @@ class CreateTaskView(TemplateView):
                 id_User_id = id
             )
             tarea.save()
+            request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha creado la tarea'}
             return redirect('home_internal')
         else:
-            return render(request, self.template_name, { 'form': form,})
+            request.session['mensajes'] = {'enviado': False, 'resultado': form.errors}
+            return render(request, self.template_name, { 'form': form})
         
 ## Ver todas las tareas
 class ListAllTaskView(TemplateView):
@@ -99,11 +104,12 @@ class ListAllTaskView(TemplateView):
             'nombre': request.user.first_name,
             'tareas': tareas,
             'etiquetas' : Etiquetas.objects.all().order_by('id'),
+            'mensajes':  request.session.get('mensajes', None),
         }
-        
+        request.session.pop('mensajes', None)
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
-        
+        request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha filtrado la búsqueda'}        
         request.session['id_busqueda'] = request.POST.get('id_etiqueta')
         return redirect('listar_tareas')

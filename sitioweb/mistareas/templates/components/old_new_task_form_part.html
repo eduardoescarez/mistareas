@@ -1,0 +1,34 @@
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="id_titulo">Titulo:</label>
+        <input type="text" name="titulo" placeholder="Ingrese un título" class="form-control" required id="id_titulo">
+    </div>
+    <div>
+        <label for="id_descripcion">Descripcion:</label>
+        <input type="text" name="descripcion" placeholder="Ingrese un descripción" class="form-control" required id="id_descripcion">
+    </div>
+    <div>
+        <label for="id_fecha_vencimiento">Fecha de vencimiento:</label>
+        <input type="date" name="fecha_vencimiento" class="form-control" required id="id_fecha_vencimiento">
+    </div>
+    <div>
+        <label for="id_id_estado">Estado:</label>
+        <select name="id_estado" class="form-select" id="id_id_estado" required>
+            <option value="" selected>Seleccione una estado</option>
+            {% for element in estados %}
+            <option value="{{element.id}}">{{element.estado}}</option>
+            {% endfor %}                
+        </select>
+    </div>
+    <div>
+        <label for="id_id_etiqueta">Etiqueta:</label>
+        <select name="id_etiqueta" class="form-select" id="id_id_etiqueta" required>
+            <option value="" selected>Seleccione una etiqueta</option>
+            {% for element in etiquetas %}
+                <option value="{{element.id}}">{{element.etiqueta}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+</form>
