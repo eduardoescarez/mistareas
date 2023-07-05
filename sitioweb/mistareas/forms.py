@@ -1,6 +1,10 @@
 from django import forms
+from mistareas.models import Tareas, Estados, Etiquetas
+from django.contrib.auth.models import User, Group
 
-
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    
 
 #Formulario de login
 class FormularioLogin(forms.Form):
@@ -28,3 +32,31 @@ class FormularioLogin(forms.Form):
                                             'class': 'form-control'
                                         })
                                         )
+
+class FormularioNuevaTarea(forms.Form):
+    titulo = forms.CharField            (label='Titulo', required=True,
+                                            widget=forms.TextInput(attrs={
+                                            'placeholder': 'Ingrese un título',
+                                            'class': 'form-control'
+                                        }))
+    descripcion = forms.CharField       (label='Descripcion', required=True,
+                                            widget=forms.TextInput(attrs={
+                                            'placeholder': 'Ingrese un descripción',
+                                            'class': 'form-control'
+                                        }))
+    fecha_vencimiento = forms.DateField (label='Fecha Vencimiento', required=True, widget=DateInput(attrs={'class': 'form-control'}))
+    id_estado = forms.ModelChoiceField  (label='Estado', empty_label=('Seleccione una estado'),
+                                        queryset=Estados.objects.all(), required=False, 
+                                        widget= forms.Select(attrs={
+                                            'class':'form-select'}),)
+    id_etiqueta = forms.ModelChoiceField(label='Etiqueta', empty_label=('Seleccione una etiqueta'),
+                                        queryset=Etiquetas.objects.all(), required=False, 
+                                        widget= forms.Select(attrs={
+                                            'class':'form-select'}),)
+    
+    class Meta:
+        model = Tareas
+        fields = ['titulo', 'descripcion', 'id_usuario', 'fecha_creacion', 'fecha_vencimiento', 'id_estado', 'id_etiqueta']
+
+
+

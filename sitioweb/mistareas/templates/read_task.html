@@ -38,11 +38,11 @@
                 </div>
                 <div class="row">
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-calendar-days"></i> Fecha de creación</div>
-                    <div class="col-2">{{ tarea.fecha_creacion }}</div>
+                    <div class="col-2">{{ tarea.fecha_creacion | date:'d-m-Y' }}</div>
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-calendar-days"></i> Vencimiento</div>
-                    <div class="col-2">{{ tarea.fecha_vencimiento }}</div>
+                    <div class="col-2">{{ tarea.fecha_vencimiento | date:'d-m-Y' }}</div>
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-calendar-days"></i> Última modificación</div>
-                    <div class="col-2">{{ tarea.modifica }}</div>
+                    <div class="col-2">{{ tarea.modifica | date:'d-m-Y' }}</div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-12 fw-bold mb-2 fs-4"><i class="fa-solid fa-align-justify"></i> Descripción</div>
