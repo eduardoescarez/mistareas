@@ -32,13 +32,14 @@ class Etiquetas(models.Model):
 # Advertencia: Si se eliminan un usuario, todas sus tareas son eliminadas inmediatamente
 class Tareas(models.Model):
     titulo            = models.CharField(max_length=45, null=False, blank=False, verbose_name='Titulo')
-    descripcion       = models.CharField(max_length=100, null=True, blank=True, verbose_name='Descripción')
+    descripcion       = models.CharField(max_length=200, null=True, blank=True, verbose_name='Descripción')
     fecha_creacion    = models.DateTimeField(default=timezone.now, verbose_name='Fecha de creación')
     fecha_modifica    = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
     fecha_vencimiento = models.DateTimeField(default=timezone.now, verbose_name='Fecha de vencimiento')
     id_estado         = models.ForeignKey(Estados, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Estado')
     id_etiqueta       = models.ForeignKey(Etiquetas, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Etiqueta')
     id_User           = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Usuario')
+    observaciones     = models.CharField(max_length=200, null=True, blank=True, verbose_name='Observaciones')
 
     class Meta:
         verbose_name = 'Tarea'

@@ -20,18 +20,29 @@
                 <form method="post">
                     {% csrf_token %}
                     <div>
-                        <label for="id_id_etiqueta">Etiqueta:</label>
-                        <select name="id_etiqueta" class="form-select" id="id_id_etiqueta" required>
-                            <option value="" selected>Seleccione una etiqueta</option>
-                            {% for element in etiquetas %}
-                                <option value="{{element.id}}">{{element.etiqueta}}</option>
-                            {% endfor %}
-                        </select>
+                        <p class="fs-4">Buscar sobre tareas pendientes</p> 
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="id_id_etiqueta" class="fw-bold">Etiqueta:</label>
+                                <select name="id_etiqueta" class="form-select" id="id_id_etiqueta" required>
+                                    <option value="" selected>Seleccione una etiqueta</option>
+                                    {% for element in etiquetas %}
+                                        <option value="{{element.id}}">{{element.etiqueta}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary mt-3">Buscar</button> <a href="{% url 'listar_tareas' %}" class="btn btn-primary mt-3">Todas las tareas</a>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">Enviar</button>
                 </form>
             </div>
             <div>
+                <div class="row">
+                    <p class="fs-4">Listado de tareas</p> 
+                </div>
                 <div class="row">
                     <div class="col-2">Titulo</div>
                     <div class="col-4">Descripción</div>
