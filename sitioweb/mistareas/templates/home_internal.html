@@ -30,11 +30,11 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             {% for element in tareas_general%}
-                            <li class="list-group-item"><span class="fw-bold">{{element.titulo}} ({{element.id_etiqueta}})</span> <a href="{% url 'leer_tarea' id_tarea=element.id %}" class="btn btn-info"><i class="fa-solid fa-magnifying-glass"></i> Ver tarea</a></li>
+                            <li class="list-group-item"><span class="fw-bold">{{element.titulo}} ({{element.id_etiqueta}})</span> <a href="{% url 'leer_tarea' id_tarea=element.id %}" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i> Ver</a></li>
                             {% endfor %}
                         </ul>
                         <div class="card-body">
-                            <a href="#" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Ver todas las tareas</a>
+                            <a href="{% url 'listar_tareas' %}" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Ver todas las tareas</a>
                         </div>
                     </div>
                 </div>

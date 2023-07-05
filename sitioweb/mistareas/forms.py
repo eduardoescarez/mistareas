@@ -46,11 +46,11 @@ class FormularioNuevaTarea(forms.Form):
                                         }))
     fecha_vencimiento = forms.DateField (label='Fecha Vencimiento', required=True, widget=DateInput(attrs={'class': 'form-control'}))
     id_estado = forms.ModelChoiceField  (label='Estado', empty_label=('Seleccione una estado'),
-                                        queryset=Estados.objects.all(), required=False, 
+                                        queryset=Estados.objects.all(), required=True, 
                                         widget= forms.Select(attrs={
                                             'class':'form-select'}),)
     id_etiqueta = forms.ModelChoiceField(label='Etiqueta', empty_label=('Seleccione una etiqueta'),
-                                        queryset=Etiquetas.objects.all(), required=False, 
+                                        queryset=Etiquetas.objects.all(), required=True, 
                                         widget= forms.Select(attrs={
                                             'class':'form-select'}),)
     
