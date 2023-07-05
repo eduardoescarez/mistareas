@@ -53,7 +53,6 @@ class ReadTaskView(TemplateView):
             'nombre': request.user.first_name,
             'tarea' : Tareas.objects.get(id=kwargs['id_tarea']),
         }
-        
         return render(request, self.template_name, context)
 
 ## Crear una tarea
@@ -67,7 +66,9 @@ class CreateTaskView(TemplateView):
             'etiquetas' : Etiquetas.objects.all().order_by('id'),
             'estados' : Estados.objects.all().order_by('id'),
             'form': FormularioNuevaTarea(),
+            'mensajes':  request.session.get('mensajes', None),
         }
+        request.session.pop('mensajes', None)
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
@@ -87,7 +88,7 @@ class CreateTaskView(TemplateView):
             return redirect('home_internal')
         else:
             request.session['mensajes'] = {'enviado': False, 'resultado': form.errors}
-            return render(request, self.template_name, { 'form': form})
+            return redirect('crear_tarea')
         
 ## Ver todas las tareas
 class ListAllTaskView(TemplateView):
