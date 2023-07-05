@@ -6,6 +6,7 @@ from mistareas.models import Tareas, Etiquetas, Estados
 
 # Create your views here.
 
+## Acceso al sitio
 class LoginView(TemplateView):
     template_name = 'login.html'
 
@@ -28,6 +29,7 @@ class LoginView(TemplateView):
         else:
             return render(request, self.template_name, { 'form': form,})
         
+## Pagina Interna
 class HomeInternalView(TemplateView):
     template_name = 'home_internal.html'
 
@@ -39,8 +41,8 @@ class HomeInternalView(TemplateView):
         }
         return render(request, self.template_name, context)
     
+## Ver una tarea
 class ReadTaskView(TemplateView):
-
     template_name= 'read_task.html'
     def get(self, request, *args, **kwargs):
         context = {
@@ -51,8 +53,8 @@ class ReadTaskView(TemplateView):
         
         return render(request, self.template_name, context)
 
+## Crear una tarea
 class CreateTaskView(TemplateView):
-
     template_name= 'create_task.html'
     def get(self, request, *args, **kwargs):
         context = {
@@ -81,3 +83,27 @@ class CreateTaskView(TemplateView):
             return redirect('home_internal')
         else:
             return render(request, self.template_name, { 'form': form,})
+        
+## Ver todas las tareas
+class ListAllTaskView(TemplateView):
+    template_name= 'list_all_tasks.html'
+    def get(self, request, *args, **kwargs):
+        id_busqueda = request.session.get('id_busqueda', 0)
+        if id_busqueda == 0:
+            tareas = Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento')
+        else:
+            tareas = Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').filter(id_estado_id=1).filter(id_etiqueta_id=id_busqueda)
+        request.session.pop('id_busqueda', None)
+        context = {
+            'title': '- Ver tarea',
+            'nombre': request.user.first_name,
+            'tareas': tareas,
+            'etiquetas' : Etiquetas.objects.all().order_by('id'),
+        }
+        
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        
+        request.session['id_busqueda'] = request.POST.get('id_etiqueta')
+        return redirect('listar_tareas')
