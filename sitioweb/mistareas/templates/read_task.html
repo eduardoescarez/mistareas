@@ -46,8 +46,10 @@
                     <div class="col-2">{{ tarea.modifica | date:'d-m-Y' }}</div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-12 fw-bold mb-2 fs-4"><i class="fa-solid fa-align-justify"></i> Descripción</div>
-                    <div class="col-12">{{ tarea.descripcion }}</div>
+                    <div class="col-6 fw-bold mb-2 fs-4"><i class="fa-solid fa-align-justify"></i> Descripción</div>
+                    <div class="col-6 fw-bold mb-2 fs-4"><i class="fa-solid fa-align-justify"></i> Observaciones</div>
+                    <div class="col-6">{{ tarea.descripcion }}</div>
+                    <div class="col-6">{{ tarea.observaciones | default:'No hay una observación en esta tarea' }}</div>
                 </div>
             </div>
         </div>
