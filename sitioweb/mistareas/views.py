@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
-from mistareas.forms import FormularioLogin, FormularioNuevaTarea
+from mistareas.forms import FormularioLogin, FormularioNuevaTarea, FormularioObservaciones
 from mistareas.models import Tareas, Etiquetas, Estados
 
 # Create your views here.
@@ -76,13 +76,28 @@ class ListAllTaskView(TemplateView):
 class ReadTaskView(TemplateView):
     template_name= 'read_task.html'
     def get(self, request, *args, **kwargs):
+        tarea = Tareas.objects.get(id=kwargs['id_tarea'])
         context = {
             'title': '- Ver tarea',
             'nombre': request.user.first_name,
-            'tarea' : Tareas.objects.get(id=kwargs['id_tarea']),
+            'tarea' : tarea,
+            'form' :  FormularioObservaciones(initial ={'observaciones': tarea.observaciones} ),
+            'mensajes':  request.session.get('mensajes', None),
         }
+        request.session.pop('mensajes', None)
         return render(request, self.template_name, context)
 
+    def post(self, request, *args, **kwargs):
+        form = FormularioObservaciones(request.POST)
+        if form.is_valid():
+            tarea = Tareas.objects.get(id=kwargs['id_tarea'])
+            tarea.observaciones = form.cleaned_data['observaciones']
+            tarea.save()
+            request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha actualizado la observación'}
+            return redirect('leer_tarea', id_tarea=kwargs['id_tarea'])
+        else:
+            request.session['mensajes'] = {'enviado': False, 'resultado': form.errors}
+            return redirect('leer_tarea', id_tarea=kwargs['id_tarea'])
 
 ## Crear una tarea
 class CreateTaskView(TemplateView):

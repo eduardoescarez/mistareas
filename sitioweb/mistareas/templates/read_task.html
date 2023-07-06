@@ -52,6 +52,27 @@
                     <div class="col-6">{{ tarea.observaciones | default:'No hay una observación en esta tarea' }}</div>
                 </div>
             </div>
+            <div class="mt-3">
+                <div class="row">
+                    <p class="fs-2">Actualizar observación</p> 
+                </div>
+                <div class="row">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for campo in form %}
+                        <div class="row">
+                            <div class="col-12">
+                                {{ campo }} 
+                                {% if campo.help_text %}
+                                <div class="form-text">{{ campo.help_text }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary mt-3">Actualizar observaciones</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

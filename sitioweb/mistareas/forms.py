@@ -60,3 +60,16 @@ class FormularioNuevaTarea(forms.Form):
     class Meta:
         model = Tareas
         fields = ['titulo', 'descripcion', 'id_usuario', 'fecha_creacion', 'fecha_vencimiento', 'id_estado', 'id_etiqueta']
+
+class FormularioObservaciones(forms.Form):
+    observaciones = forms.CharField     (label='Observaciones', required=True,
+                                            widget=forms.Textarea(attrs={
+                                            'class': 'form-control',
+                                            'rows': 4, 
+                                            'placeholder': 'Ingrese acá la observación'
+                                        })
+                                        )
+    
+    class Meta:
+        model = Tareas
+        fields = ['observaciones']
