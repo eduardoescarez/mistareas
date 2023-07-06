@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from mainsite.views import IndexView
-from mistareas.views import LoginView, HomeInternalView, ReadTaskView, CreateTaskView, ListAllTaskView
+from mistareas.views import LoginView, HomeInternalView, ReadTaskView, CreateTaskView, ListAllTaskView, EditTaskView
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth.decorators import login_required
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('internal/home', login_required(HomeInternalView.as_view()), name='home_internal'),
     path('internal/tarea/<int:id_tarea>/ver', login_required(ReadTaskView.as_view()), name='leer_tarea'),
+    path('internal/tarea/<int:id_tarea>/editar', login_required(EditTaskView.as_view()), name='editar_tarea'),
     path('internal/tarea/crear', login_required(CreateTaskView.as_view()), name='crear_tarea'),
     path('internal/tareas/ver', login_required(ListAllTaskView.as_view()), name='listar_tareas'),
 ]

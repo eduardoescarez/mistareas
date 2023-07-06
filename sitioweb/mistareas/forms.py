@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm, TextInput, Textarea
 from mistareas.models import Tareas, Estados, Etiquetas
 from django.contrib.auth.models import User, Group
 
@@ -38,12 +39,14 @@ class FormularioNuevaTarea(forms.Form):
                                             widget=forms.TextInput(attrs={
                                             'placeholder': 'Ingrese un título',
                                             'class': 'form-control'
-                                        }))
+                                        })
+                                        )
     descripcion = forms.CharField       (label='Descripcion', required=True,
                                             widget=forms.TextInput(attrs={
                                             'placeholder': 'Ingrese un descripción',
                                             'class': 'form-control'
-                                        }))
+                                        })
+                                        )
     fecha_vencimiento = forms.DateField (label='Fecha Vencimiento', required=True, widget=DateInput(attrs={'class': 'form-control'}))
     id_estado = forms.ModelChoiceField  (label='Estado', empty_label=('Seleccione una estado'),
                                         queryset=Estados.objects.all(), required=True, 
@@ -57,6 +60,3 @@ class FormularioNuevaTarea(forms.Form):
     class Meta:
         model = Tareas
         fields = ['titulo', 'descripcion', 'id_usuario', 'fecha_creacion', 'fecha_vencimiento', 'id_estado', 'id_etiqueta']
-
-
-

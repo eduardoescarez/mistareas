@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from mistareas.forms import FormularioLogin, FormularioNuevaTarea
 from mistareas.models import Tareas, Etiquetas, Estados
@@ -28,7 +28,8 @@ class LoginView(TemplateView):
             return render(request, self.template_name, { 'form': form,})
         else:
             return render(request, self.template_name, { 'form': form,})
-        
+
+
 ## Pagina Interna
 class HomeInternalView(TemplateView):
     template_name = 'home_internal.html'
@@ -43,53 +44,8 @@ class HomeInternalView(TemplateView):
         }
         request.session.pop('mensajes', None)
         return render(request, self.template_name, context)
-    
-## Ver una tarea
-class ReadTaskView(TemplateView):
-    template_name= 'read_task.html'
-    def get(self, request, *args, **kwargs):
-        context = {
-            'title': '- Ver tarea',
-            'nombre': request.user.first_name,
-            'tarea' : Tareas.objects.get(id=kwargs['id_tarea']),
-        }
-        return render(request, self.template_name, context)
 
-## Crear una tarea
-class CreateTaskView(TemplateView):
-    template_name= 'create_task.html'
-    def get(self, request, *args, **kwargs):
-        context = {
-            'title': '- Crear tarea',
-            'nombre': request.user.first_name,
-            'id': request.user.id,
-            'etiquetas' : Etiquetas.objects.all().order_by('id'),
-            'estados' : Estados.objects.all().order_by('id'),
-            'form': FormularioNuevaTarea(),
-            'mensajes':  request.session.get('mensajes', None),
-        }
-        request.session.pop('mensajes', None)
-        return render(request, self.template_name, context)
-    
-    def post(self, request, *args, **kwargs):
-        form = FormularioNuevaTarea(request.POST)
-        id = request.user.id
-        if form.is_valid():
-            tarea = Tareas(
-                titulo = form.cleaned_data['titulo'],
-                descripcion = form.cleaned_data['descripcion'],
-                fecha_vencimiento = form.cleaned_data['fecha_vencimiento'],
-                id_estado = form.cleaned_data['id_estado'],
-                id_etiqueta = form.cleaned_data['id_etiqueta'],
-                id_User_id = id
-            )
-            tarea.save()
-            request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha creado la tarea'}
-            return redirect('home_internal')
-        else:
-            request.session['mensajes'] = {'enviado': False, 'resultado': form.errors}
-            return redirect('crear_tarea')
-        
+
 ## Ver todas las tareas
 class ListAllTaskView(TemplateView):
     template_name= 'list_all_tasks.html'
@@ -114,3 +70,95 @@ class ListAllTaskView(TemplateView):
         request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha filtrado la búsqueda'}        
         request.session['id_busqueda'] = request.POST.get('id_etiqueta')
         return redirect('listar_tareas')
+
+
+## Ver una tarea
+class ReadTaskView(TemplateView):
+    template_name= 'read_task.html'
+    def get(self, request, *args, **kwargs):
+        context = {
+            'title': '- Ver tarea',
+            'nombre': request.user.first_name,
+            'tarea' : Tareas.objects.get(id=kwargs['id_tarea']),
+        }
+        return render(request, self.template_name, context)
+
+
+## Crear una tarea
+class CreateTaskView(TemplateView):
+    template_name= 'create_task.html'
+    def get(self, request, *args, **kwargs):
+        context = {
+            'title': '- Crear tarea',
+            'nombre': request.user.first_name,
+            'id': request.user.id,
+            'etiquetas' : Etiquetas.objects.all().order_by('id'),
+            'estados' : Estados.objects.all().order_by('id'),
+            'form': FormularioNuevaTarea(),
+            'mensajes':  request.session.get('mensajes', None),
+            'accion': 'crear',
+        }
+        request.session.pop('mensajes', None)
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        form = FormularioNuevaTarea(request.POST)
+        id = request.user.id
+        if form.is_valid():
+            tarea = Tareas(
+                titulo = form.cleaned_data['titulo'],
+                descripcion = form.cleaned_data['descripcion'],
+                fecha_vencimiento = form.cleaned_data['fecha_vencimiento'],
+                id_estado = form.cleaned_data['id_estado'],
+                id_etiqueta = form.cleaned_data['id_etiqueta'],
+                id_User_id = id
+            )
+            tarea.save()
+            request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha creado la tarea'}
+            return redirect('home_internal')
+        else:
+            request.session['mensajes'] = {'enviado': False, 'resultado': form.errors}
+            return redirect('crear_tarea')
+
+## Editar una tarea
+class EditTaskView(TemplateView):
+    template_name = 'create_task.html'
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            tarea = Tareas.objects.get(id=kwargs['id_tarea'])
+        except Tareas.DoesNotExist:
+            context = {
+                'title': '- Error'
+            }
+            return render(request, 'elemento_no_existe.html', context)
+        form = FormularioNuevaTarea(initial = tarea.__dict__)
+        context = {
+            'title': '- Editar tarea',
+            'form': form,
+            'accion': 'editar',
+
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        tarea = Tareas.objects.get(id=kwargs['id_tarea'])
+        print(tarea)
+        form = FormularioNuevaTarea(request.POST)
+        if form.is_valid():
+            tarea = Tareas.objects.get(id=kwargs['id_tarea'])
+            tarea.titulo = form.cleaned_data['titulo']
+            tarea.descripcion = form.cleaned_data['descripcion']
+            tarea.fecha_vencimiento = form.cleaned_data['fecha_vencimiento']
+            tarea.id_estado = form.cleaned_data['id_estado']
+            tarea.id_etiqueta = form.cleaned_data['id_etiqueta']
+            tarea.save()
+            request.session['mensajes'] = {'enviado': True, 'resultado': 'Has actualizado la tarea exitosamente'}
+            return redirect('listar_tareas') 
+        else:
+            mensajes = {'enviado': False, 'resultado': form.errors}
+        context = {
+            'form': form,
+            'mensajes': mensajes
+        }
+        return render(request, self.template_name, context)

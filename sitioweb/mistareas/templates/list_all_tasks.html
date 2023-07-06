@@ -50,6 +50,7 @@
                     <div class="col-1"><p class="fs-5">Estado</p></div>
                     <div class="col-1"><p class="fs-5">Etiqueta</p></div>
                     <div class="col-2"><p class="fs-5">Fecha de vencimiento</p></div>
+                    <div class="col-1"><p class="fs-5">Acciones</p></div>
                 </div>
                 {% for element in tareas %}
                 <div class="row">
@@ -58,6 +59,7 @@
                     <div class="col-1">{{ element.id_estado }}</div>
                     <div class="col-1">{{ element.id_etiqueta }}</div>
                     <div class="col-2">{{ element.fecha_vencimiento | date:'d-m-Y' }}</div>
+                    <div class="col-1"><a href="{% url 'leer_tarea' id_tarea=element.id %}" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i> Ver</a></div>
                 </div>
                 {% endfor %}
             </div>

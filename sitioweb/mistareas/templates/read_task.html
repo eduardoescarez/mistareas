@@ -21,9 +21,9 @@
                         <div class="col-9">
                             <div class="btn-group" role="group">
                                 <a href="{% url 'home_internal' %}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Volver atrás</a>
-                                <a href="#" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Editar tareas</a>
-                                <a href="#" class="btn btn-primary"><i class="fa-solid fa-check"></i> Completar tarea</a>
-                                <a href="#" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i> Eliminar tarea</a> 
+                                <a href="{% url 'editar_tarea' id_tarea=tarea.id %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Editar tarea</a>
+                                <a href="#" class="btn btn-primary"><i class="fa-solid fa-check"></i> Marcar como completado</a>
+                                <a href="#" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i> Eliminar</a> 
                             </div>
                         </div>
                     </div>
