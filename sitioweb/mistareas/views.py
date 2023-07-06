@@ -56,7 +56,8 @@ class ListAllTaskView(TemplateView):
         if id_busqueda == 0:
             tareas = Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento')
         else:
-            tareas = Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').filter(id_estado_id=1).filter(id_etiqueta_id=id_busqueda)
+            # tareas = Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').filter(id_estado_id=1).filter(id_etiqueta_id=id_busqueda)´
+            tareas = Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').exclude(id_estado_id=3).filter(id_etiqueta_id=id_busqueda)
         request.session.pop('id_busqueda', None)
         context = {
             'title': '- Ver tarea',
