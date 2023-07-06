@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from mistareas.forms import FormularioLogin, FormularioNuevaTarea, FormularioObservaciones
 from mistareas.models import Tareas, Etiquetas, Estados
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -72,7 +73,7 @@ class ListAllTaskView(TemplateView):
         return redirect('listar_tareas')
 
 
-## Ver una tarea
+## Ver una tarea, agrega observaciones
 class ReadTaskView(TemplateView):
     template_name= 'read_task.html'
     def get(self, request, *args, **kwargs):
@@ -177,3 +178,9 @@ class EditTaskView(TemplateView):
             'mensajes': mensajes
         }
         return render(request, self.template_name, context)
+
+## Elimina una tarea
+class DeleteTaskView(DeleteView):
+    model = Tareas
+    template_name = 'eliminar_tarea.html'
+    success_url = '/internal/tareas/ver'
