@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from mistareas.forms import FormularioLogin, FormularioNuevaTarea, FormularioObservaciones
@@ -40,7 +40,8 @@ class HomeInternalView(TemplateView):
         context = {
             'title': '- Inicio',
             'nombre': request.user.first_name,
-            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento'),
+            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').exclude(id_estado_id=3),
+            'tareas_completadas' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').filter(id_estado_id=3),
             'mensajes':  request.session.get('mensajes', None),
         }
         request.session.pop('mensajes', None)
@@ -184,3 +185,14 @@ class DeleteTaskView(DeleteView):
     model = Tareas
     template_name = 'eliminar_tarea.html'
     success_url = '/internal/tareas/ver'
+
+## Marcar una tarea como completada
+class CompleteTaskView(TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        tarea = Tareas.objects.get(id=kwargs['pk'])
+        idtarea = kwargs['pk']
+        tarea.id_estado = Estados.objects.get(id=3)
+        tarea.save()
+        request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha marcado como completada la tarea'}
+        return redirect(reverse('leer_tarea', kwargs={'id_tarea': idtarea}))
