@@ -5,6 +5,7 @@ from mistareas.forms import FormularioLogin, FormularioNuevaTarea, FormularioObs
 from mistareas.models import Tareas, Etiquetas, Estados
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+from datetime import date
 
 # Create your views here.
 
@@ -43,6 +44,7 @@ class HomeInternalView(TemplateView):
             'nombre': request.user.first_name,
             'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento'),
             'tareas_completadas' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').filter(id_estado_id=3),
+            'tareas_vencidas': Tareas.objects.filter(id_User_id=request.user.id).filter(fecha_vencimiento__lt=date.today()).exclude(id_estado_id=3),
             'mensajes':  request.session.get('mensajes', None),
         }
         request.session.pop('mensajes', None)
@@ -135,7 +137,7 @@ class CreateTaskView(TemplateView):
             )
             tarea.save()
             request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha creado la tarea'}
-            return redirect('home_internal')
+            return redirect('listar_tareas')
         else:
             request.session['mensajes'] = {'enviado': False, 'resultado': form.errors}
             return redirect('crear_tarea')

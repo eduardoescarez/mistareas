@@ -67,3 +67,14 @@ Los usuarios disponibles en esta aplicación son:
     username   : mmacjob
     contraseña : CARONTE23
     email      : mcornejo@migato.cl
+
+    Usuario
+    
+    username   : isantamaria
+    contraseña : CARONTE23
+
+    Usuario
+    
+    username   : mmoragues
+    contraseña : CARONTE23
+    

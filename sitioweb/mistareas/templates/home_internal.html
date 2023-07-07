@@ -50,6 +50,18 @@
                         </ul>
                     </div>
                 </div>
+                <div class="col-sm-12 col-lg-6 p-1">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fa-solid fa-triangle-exclamation"></i> Tareas Vencidas y sin completar</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for element in tareas_vencidas %}
+                            <li class="list-group-item"><span class="fw-bold">{{element.titulo}} ({{element.id_etiqueta}})</span> <a href="{% url 'leer_tarea' id_tarea=element.id %}" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i> Ver</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
