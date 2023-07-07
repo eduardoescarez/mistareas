@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, TextInput, Textarea
-from mistareas.models import Tareas, Estados, Etiquetas
+from mistareas.models import Tareas, Estados, Etiquetas, Prioridades
 from django.contrib.auth.models import User, Group
 
 class DateInput(forms.DateInput):
@@ -49,20 +49,26 @@ class FormularioNuevaTarea(forms.Form):
                                         )
     fecha_vencimiento = forms.DateField (label='Fecha Vencimiento', required=True, widget=DateInput(attrs={'class': 'form-control'}))
     id_estado = forms.ModelChoiceField  (label='Estado', empty_label=('Seleccione una estado'),
-                                        queryset=Estados.objects.all(), required=True, 
+                                        queryset=Estados.objects.all().order_by('id'), required=True, 
+                                        widget= forms.Select(attrs={
+                                            'class':'form-select'}),)
+    id_prioridad = forms.ModelChoiceField(label='Prioridad', empty_label=('Seleccione una prioridad'),
+                                        queryset=Prioridades.objects.all().order_by('id'), required=True, 
                                         widget= forms.Select(attrs={
                                             'class':'form-select'}),)
     id_etiqueta = forms.ModelChoiceField(label='Etiqueta', empty_label=('Seleccione una etiqueta'),
-                                        queryset=Etiquetas.objects.all(), required=True, 
+                                        queryset=Etiquetas.objects.all().order_by('id'), required=True, 
                                         widget= forms.Select(attrs={
                                             'class':'form-select'}),)
     id_usuario = forms.ModelChoiceField (label='Asignar tarea a usuario', empty_label=('Seleccione un usuario'),
-                                        queryset=User.objects.all(), required=True, 
+                                        queryset=User.objects.all().order_by('id'), required=True, 
                                         widget= forms.Select(attrs={
                                             'class':'form-select'}),)
+    
+    
     class Meta:
         model = Tareas
-        fields = ['titulo', 'descripcion', 'id_usuario', 'fecha_creacion', 'fecha_vencimiento', 'id_estado', 'id_etiqueta']
+        fields = ['titulo', 'descripcion', 'id_usuario', 'fecha_creacion', 'fecha_vencimiento', 'id_estado', 'id_etiqueta', 'id_prioridad']
 
 class FormularioObservaciones(forms.Form):
     observaciones = forms.CharField     (label='Observaciones', required=True,

@@ -41,7 +41,7 @@ class HomeInternalView(TemplateView):
         context = {
             'title': '- Inicio',
             'nombre': request.user.first_name,
-            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').exclude(id_estado_id=3),
+            'tareas_general' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento'),
             'tareas_completadas' : Tareas.objects.filter(id_User_id=request.user.id).order_by('fecha_vencimiento').filter(id_estado_id=3),
             'mensajes':  request.session.get('mensajes', None),
         }
@@ -78,7 +78,7 @@ class ListAllTaskView(TemplateView):
 
 ## Ver una tarea, agrega observaciones
 class ReadTaskView(TemplateView):
-    template_name= 'read_task.html'
+    template_name= 'view_task.html'
     def get(self, request, *args, **kwargs):
         tarea = Tareas.objects.get(id=kwargs['id_tarea'])
         context = {
@@ -131,6 +131,7 @@ class CreateTaskView(TemplateView):
                 id_estado = form.cleaned_data['id_estado'],
                 id_etiqueta = form.cleaned_data['id_etiqueta'],
                 id_User = form.cleaned_data['id_usuario'],
+                id_prioridad = form.cleaned_data['id_prioridad'],
             )
             tarea.save()
             request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha creado la tarea'}
@@ -171,6 +172,8 @@ class EditTaskView(TemplateView):
             tarea.fecha_vencimiento = form.cleaned_data['fecha_vencimiento']
             tarea.id_estado = form.cleaned_data['id_estado']
             tarea.id_etiqueta = form.cleaned_data['id_etiqueta']
+            tarea.id_prioridad = form.cleaned_data['id_prioridad']
+            tarea.id_User = form.cleaned_data['id_usuario']
             tarea.save()
             request.session['mensajes'] = {'enviado': True, 'resultado': 'Has actualizado la tarea exitosamente'}
             return redirect('listar_tareas') 

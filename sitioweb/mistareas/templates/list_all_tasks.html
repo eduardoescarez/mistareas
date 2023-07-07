@@ -46,7 +46,8 @@
                 </div>
                 <div class="row">
                     <div class="col-2"><p class="fs-5">Titulo</p></div>
-                    <div class="col-4"><p class="fs-5">Descripción</p></div>
+                    <div class="col-3"><p class="fs-5">Descripción</p></div>
+                    <div class="col-1"><p class="fs-5">Prioridad</p></div>
                     <div class="col-1"><p class="fs-5">Estado</p></div>
                     <div class="col-1"><p class="fs-5">Etiqueta</p></div>
                     <div class="col-2"><p class="fs-5">Fecha de vencimiento</p></div>
@@ -55,7 +56,17 @@
                 {% for element in tareas %}
                 <div class="row">
                     <div class="col-2">{{ element.titulo }}</div>
-                    <div class="col-4">{{ element.descripcion }}</div>
+                    <div class="col-3">{{ element.descripcion }}</div>
+                    <div class="col-1">{% if element.id_prioridad_id == 1%} 
+                        <p style="color: grey" class="fw-bold">{{element.id_prioridad}}</p>
+                            {% elif element.id_prioridad_id == 2%}
+                        <p style="color: grey" class="fw-bold">{{element.id_prioridad}}</p>
+                            {% elif element.id_prioridad_id == 3%}
+                        <p style="color: #002a86" class="fw-bold">{{element.id_prioridad}}</p>
+                            {% elif element.id_prioridad_id > 3 %}
+                        <p style="color: red;" class="fw-bold">{{element.id_prioridad}}</p>
+                            {% endif %}
+                    </div>
                     <div class="col-1">{{ element.id_estado }}</div>
                     <div class="col-1">{{ element.id_etiqueta }}</div>
                     <div class="col-2">{{ element.fecha_vencimiento | date:'d-m-Y' }}</div>

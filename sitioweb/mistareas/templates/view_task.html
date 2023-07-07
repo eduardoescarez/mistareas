@@ -36,6 +36,17 @@
                     <div class="col-2">{{ tarea.id_estado }}</div>
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-tag"></i> Etiqueta</div>
                     <div class="col-2">{{ tarea.id_etiqueta }}</div>
+                    <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-exclamation"></i> Prioridad</div>
+                    <div class="col-2"> {% if tarea.id_prioridad_id == 1%} 
+                                            <p style="color: grey" class="fw-bold">{{tarea.id_prioridad}}</p>
+                                        {% elif tarea.id_prioridad_id == 2%}
+                                            <p style="color: grey" class="fw-bold">{{tarea.id_prioridad}}</p>
+                                        {% elif tarea.id_prioridad_id == 3%}
+                                            <p style="color: #002a86" class="fw-bold">{{tarea.id_prioridad}}</p>
+                                        {% elif tarea.id_prioridad_id > 3 %}
+                                            <p style="color: red;" class="fw-bold">{{tarea.id_prioridad}}</p>
+                                        {% endif %}
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-calendar-days"></i> Fecha de creación</div>
@@ -43,7 +54,7 @@
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-calendar-days"></i> Vencimiento</div>
                     <div class="col-2">{{ tarea.fecha_vencimiento | date:'d-m-Y' }}</div>
                     <div class="col-2 fw-bold mb-2"><i class="fa-solid fa-calendar-days"></i> Última modificación</div>
-                    <div class="col-2">{{ tarea.modifica | date:'d-m-Y' }}</div>
+                    <div class="col-2">{{ tarea.fecha_modifica | date:'d-m-Y' }}</div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-6 fw-bold mb-2 fs-4"><i class="fa-solid fa-align-justify"></i> Descripción</div>
@@ -69,7 +80,7 @@
                             </div>
                         </div>
                         {% endfor %}
-                        <button type="submit" class="btn btn-primary mt-3">Actualizar observaciones</button>
+                        <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-arrow-rotate-right"></i> Actualizar observaciones</button>
                     </form>
                 </div>
             </div>

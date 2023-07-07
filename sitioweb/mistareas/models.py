@@ -28,6 +28,18 @@ class Etiquetas(models.Model):
     def __str__(self):
         return self.etiqueta
 
+# Modelos de las prioridades de las tareas
+class Prioridades(models.Model):
+    prioridad          = models.CharField(max_length=20, null=False, blank=False, verbose_name='Etiqueta')
+
+    class Meta:
+        verbose_name = 'Prioridad'
+        verbose_name_plural = 'prioridades'
+
+
+    def __str__(self):
+        return self.prioridad
+
 # Modelo de las tareas
 # Advertencia: Si se eliminan un usuario, todas sus tareas son eliminadas inmediatamente
 class Tareas(models.Model):
@@ -38,6 +50,7 @@ class Tareas(models.Model):
     fecha_vencimiento = models.DateTimeField(default=timezone.now, verbose_name='Fecha de vencimiento')
     id_estado         = models.ForeignKey(Estados, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Estado')
     id_etiqueta       = models.ForeignKey(Etiquetas, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Etiqueta')
+    id_prioridad      = models.ForeignKey(Prioridades, on_delete=models.DO_NOTHING, null=False, blank=False, verbose_name='Prioridad', default=1)
     id_User           = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Usuario')
     observaciones     = models.CharField(max_length=200, null=True, blank=True, verbose_name='Observaciones')
 
@@ -47,4 +60,3 @@ class Tareas(models.Model):
 
     def __str__(self):
         return self.titulo
-
