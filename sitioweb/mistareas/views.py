@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from mistareas.forms import FormularioLogin, FormularioNuevaTarea, FormularioObservaciones
 from mistareas.models import Tareas, Etiquetas, Estados
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -121,7 +122,7 @@ class CreateTaskView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         form = FormularioNuevaTarea(request.POST)
-        id = request.user.id
+        # id = request.user.id
         if form.is_valid():
             tarea = Tareas(
                 titulo = form.cleaned_data['titulo'],
@@ -129,7 +130,7 @@ class CreateTaskView(TemplateView):
                 fecha_vencimiento = form.cleaned_data['fecha_vencimiento'],
                 id_estado = form.cleaned_data['id_estado'],
                 id_etiqueta = form.cleaned_data['id_etiqueta'],
-                id_User_id = id
+                id_User = form.cleaned_data['id_usuario'],
             )
             tarea.save()
             request.session['mensajes'] = {'enviado': True, 'resultado': 'Se ha creado la tarea'}

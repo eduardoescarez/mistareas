@@ -56,7 +56,10 @@ class FormularioNuevaTarea(forms.Form):
                                         queryset=Etiquetas.objects.all(), required=True, 
                                         widget= forms.Select(attrs={
                                             'class':'form-select'}),)
-    
+    id_usuario = forms.ModelChoiceField (label='Asignar tarea a usuario', empty_label=('Seleccione un usuario'),
+                                        queryset=User.objects.all(), required=True, 
+                                        widget= forms.Select(attrs={
+                                            'class':'form-select'}),)
     class Meta:
         model = Tareas
         fields = ['titulo', 'descripcion', 'id_usuario', 'fecha_creacion', 'fecha_vencimiento', 'id_estado', 'id_etiqueta']
